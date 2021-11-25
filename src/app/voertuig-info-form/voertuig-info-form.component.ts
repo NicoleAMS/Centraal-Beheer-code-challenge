@@ -27,4 +27,35 @@ export class VoertuigInfoFormComponent implements OnInit {
     this.gekozenVoertuig = this.voertuigService.getVoertuig(this.index);
   }
 
+  onBlur(event: any) {
+    this.formatKenteken(event);
+  }
+
+  formatKenteken(event: any) {
+    // haalt streepjes weg die gebruiker ingevoerd heeft zodat het kenteken opnieuw geformatteerd kan worden
+    let kenteken = event.target.value.split('-').join('');
+
+    let formattedKenteken: string = '';
+
+    // voegt streepje tussen cijfers en letters toe
+    let isLetter: boolean = isNaN(kenteken[0]);
+    for (let i = 0; i < kenteken.length; i++) {
+      if (isNaN(kenteken[i]) !== isLetter) {
+        formattedKenteken += `-${kenteken[i]}`;
+        isLetter = !isLetter;
+      } else {
+        formattedKenteken += kenteken[i];
+      }
+    }
+
+    // voegt streepje tussen vier opeenvolgende letters toe
+    let pattern = kenteken.match(/[a-zA-Z]{4}/);
+    if (pattern) {
+      let chars = pattern[0];
+      formattedKenteken = formattedKenteken.replace(chars, `${chars[0]}${chars[1]}-${chars[2]}${chars[3]}`);
+    }
+
+    this.kenteken = formattedKenteken;
+  }
+
 }

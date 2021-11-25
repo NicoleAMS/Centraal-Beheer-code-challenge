@@ -69,7 +69,9 @@
           focus:border-gray-500 focus:bg-yellow-300 focus:ring-0
         "
         name="kenteken"
+        [(ngModel)]="kenteken"
         placeholder="Bijvoorbeeld AA-BB-12"
+        (blur)="onBlur($event)"
       />
       <div
         *ngIf="!kentekenGeldig"
