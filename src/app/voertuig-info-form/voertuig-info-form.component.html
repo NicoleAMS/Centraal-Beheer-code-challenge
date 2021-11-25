@@ -30,8 +30,10 @@
     </label>
 
     <!-- SELECT VOERTUIG SUBTYPE-->
-    <label class="block mt-4" *ngIf="gekozenVoertuig !== 'scooter'">
-      <span class="text-gray-700">Welk type {{ gekozenVoertuig }} hebt u?</span>
+    <label class="block mt-4" *ngIf="gekozenVoertuig.type !== 'scooter'">
+      <span class="text-gray-700"
+        >Welk type {{ gekozenVoertuig.type }} hebt u?</span
+      >
       <select
         class="
           block
@@ -53,7 +55,7 @@
     <!-- INPUT KENTEKEN -->
     <label class="block mt-4">
       <span class="text-gray-700"
-        >Vul het kenteken van uw {{ gekozenVoertuig }} in.</span
+        >Vul het kenteken van uw {{ gekozenVoertuig.type }} in.</span
       >
       <input
         type="text"
@@ -112,7 +114,7 @@
   </form>
   <picture>
     <img
-      src="/assets/{{ gekozenVoertuig }}.jpg"
+      [src]="gekozenVoertuig.imagePath"
       alt="auto"
       class="object-cover h-full w-full"
     />
