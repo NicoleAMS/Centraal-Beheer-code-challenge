@@ -18,16 +18,20 @@
           focus:border-gray-500 focus:bg-white focus:ring-0
         "
         name="vehicle-type"
+        (change)="selectVoertuig($event)"
       >
-        <option>Auto</option>
-        <option>Motor</option>
-        <option>Scooter</option>
+        <option
+          *ngFor="let voertuig of voertuigen; let i = index"
+          [value]="voertuig.type"
+        >
+          {{ voertuig.type | titlecase }}
+        </option>
       </select>
     </label>
 
     <!-- SELECT VOERTUIG SUBTYPE-->
-    <label class="block mt-4">
-      <span class="text-gray-700">Welk type [auto/motor/brommer] hebt u?</span>
+    <label class="block mt-4" *ngIf="gekozenVoertuig !== 'scooter'">
+      <span class="text-gray-700">Welk type {{ gekozenVoertuig }} hebt u?</span>
       <select
         class="
           block
@@ -40,20 +44,16 @@
         "
         name="vehicle-subtype"
       >
-        <option>Hatchback</option>
-        <option>Sedan</option>
-        <option>Station</option>
-        <option>Cabriolet</option>
-        <option>Coupé</option>
-        <option>MPV</option>
-        <option>Terreinauto</option>
+        <option *ngFor="let type of voertuigen[index].subtypes" [value]="type">
+          {{ type }}
+        </option>
       </select>
     </label>
 
     <!-- INPUT KENTEKEN -->
     <label class="block mt-4">
       <span class="text-gray-700"
-        >Vul het kenteken van uw [auto/motor/brommer] in.</span
+        >Vul het kenteken van uw {{ gekozenVoertuig }} in.</span
       >
       <input
         type="text"
@@ -70,6 +70,7 @@
         placeholder="Bijvoorbeeld AA-BB-12"
       />
       <div
+        *ngIf="!kentekenGeldig"
         class="
           bg-red-100
           border border-red-400
@@ -111,7 +112,7 @@
   </form>
   <picture>
     <img
-      src="./assets/auto.jpg"
+      src="/assets/{{ gekozenVoertuig }}.jpg"
       alt="auto"
       class="object-cover h-full w-full"
     />
