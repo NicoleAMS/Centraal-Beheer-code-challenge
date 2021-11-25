@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
 import { VoertuigInfoFormComponent } from './voertuig-info-form/voertuig-info-form.component';
 import { VoertuigInfoService } from './services/voertuig-info.service';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -13,7 +13,7 @@ import { FormsModule } from '@angular/forms';
     VoertuigInfoFormComponent
   ],
   imports: [
-    BrowserModule, FormsModule,
+    BrowserModule, FormsModule, ReactiveFormsModule,
     StoreModule.forRoot({}, {})
   ],
   providers: [VoertuigInfoService],

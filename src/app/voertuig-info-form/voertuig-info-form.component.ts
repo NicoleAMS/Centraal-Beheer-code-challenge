@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {KentekenCheck} from 'rdw-kenteken-check';
 import { Voertuig } from '../models/voertuig.model';
 import { VoertuigInfoService } from '../services/voertuig-info.service';
@@ -10,6 +11,7 @@ import { VoertuigInfoService } from '../services/voertuig-info.service';
 })
 export class VoertuigInfoFormComponent implements OnInit {
 
+  voertuigInfoForm!: FormGroup;
   voertuigen: Voertuig[] = [];
   gekozenVoertuig!: Voertuig;
   index: number = 0;
@@ -21,13 +23,26 @@ export class VoertuigInfoFormComponent implements OnInit {
   ngOnInit(): void {
     this.voertuigen = this.voertuigService.getVoertuigen();
     this.gekozenVoertuig = this.voertuigen[0];
+    this.createForm();
   }
 
   selectVoertuig(event: any) {
     this.index = event.target.options['selectedIndex'];
     this.gekozenVoertuig = this.voertuigService.getVoertuig(this.index);
+    this.voertuigInfoForm.controls['subtypes'].setValue(this.gekozenVoertuig.subtypes[0]);
   }
 
+  onSubmit() {
+    const formData = {
+      type: this.voertuigInfoForm.value['type'],
+      subtype: this.voertuigInfoForm.value['subtypes'],
+      kenteken: this.kenteken
+    }
+
+    console.log(formData);
+  }
+
+  // zou een custom validator moeten zijn 
   validateKenteken(event: any) {
     let outputElm = event.target;
     const kt = new KentekenCheck(this.kenteken);
@@ -37,6 +52,8 @@ export class VoertuigInfoFormComponent implements OnInit {
   }
 
   formatKenteken(event: any) {
+    this.kenteken = event.target.value;
+
     // haalt streepjes weg die gebruiker ingevoerd heeft zodat het kenteken opnieuw geformatteerd kan worden
     let kenteken = event.target.value.split('-').join('');
 
@@ -61,6 +78,14 @@ export class VoertuigInfoFormComponent implements OnInit {
     }
 
     this.kenteken = formattedKenteken;
+  }
+
+  private createForm() {
+    this.voertuigInfoForm = new FormGroup({
+      type: new FormControl(this.gekozenVoertuig.type, Validators.required),
+      subtypes: new FormControl(this.gekozenVoertuig.subtypes[0], Validators.required),
+      kenteken: new FormControl('', Validators.required),
+    });
   }
 
 }
