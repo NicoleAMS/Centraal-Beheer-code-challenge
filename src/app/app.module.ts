@@ -3,10 +3,12 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
+import { VoertuigInfoFormComponent } from './voertuig-info-form/voertuig-info-form.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    VoertuigInfoFormComponent
   ],
   imports: [
     BrowserModule,
