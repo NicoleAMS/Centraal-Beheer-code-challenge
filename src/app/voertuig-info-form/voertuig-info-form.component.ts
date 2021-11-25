@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {KentekenCheck} from 'rdw-kenteken-check';
 import { Voertuig } from '../models/voertuig.model';
 import { VoertuigInfoService } from '../services/voertuig-info.service';
 
@@ -27,8 +28,12 @@ export class VoertuigInfoFormComponent implements OnInit {
     this.gekozenVoertuig = this.voertuigService.getVoertuig(this.index);
   }
 
-  onBlur(event: any) {
-    this.formatKenteken(event);
+  validateKenteken(event: any) {
+    let outputElm = event.target;
+    const kt = new KentekenCheck(this.kenteken);
+    outputElm.value = kt.formatLicense();
+    this.kenteken = kt.newStr;
+    this.kentekenGeldig = kt.valid;
   }
 
   formatKenteken(event: any) {
